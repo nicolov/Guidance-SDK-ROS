@@ -155,7 +155,7 @@ int my_callback(int data_type, int data_len, char *content)
 
         if ( data->m_greyscale_image_left[CAMERA_ID] ) {
             memcpy(g_greyscale_image_left.data, data->m_greyscale_image_left[CAMERA_ID], IMAGE_SIZE);
-            imshow("left",  g_greyscale_image_left);
+            // imshow("left",  g_greyscale_image_left);
             // publish left greyscale image
             cv_bridge::CvImage left_8;
             g_greyscale_image_left.copyTo(left_8.image);
@@ -177,7 +177,7 @@ int my_callback(int data_type, int data_len, char *content)
         }
         if ( data->m_greyscale_image_right[CAMERA_ID] ) {
             memcpy(g_greyscale_image_right.data, data->m_greyscale_image_right[CAMERA_ID], IMAGE_SIZE);
-            imshow("right", g_greyscale_image_right);
+            // imshow("right", g_greyscale_image_right);
             // publish right greyscale image
             cv_bridge::CvImage right_8;
             g_greyscale_image_right.copyTo(right_8.image);
@@ -200,7 +200,7 @@ int my_callback(int data_type, int data_len, char *content)
         if ( data->m_depth_image[CAMERA_ID] ) {
             memcpy(g_depth.data, data->m_depth_image[CAMERA_ID], IMAGE_SIZE * 2);
             g_depth.convertTo(depth8, CV_8UC1);
-            imshow("depth", depth8);
+            // imshow("depth", depth8);
             //publish depth image
             cv_bridge::CvImage depth_16;
             g_depth.copyTo(depth_16.image);
@@ -210,15 +210,15 @@ int my_callback(int data_type, int data_len, char *content)
             depth_image_pub.publish(depth_16.toImageMsg());
         }
 
-        key = waitKey(1);
+        // key = waitKey(1);
     }
 
     /* imu */
     if ( e_imu == data_type && NULL != content )
     {
         imu *imu_data = (imu*)content;
-        printf( "frame index: %d, stamp: %d\n", imu_data->frame_index, imu_data->time_stamp );
-        printf( "imu: [%f %f %f %f %f %f %f]\n", imu_data->acc_x, imu_data->acc_y, imu_data->acc_z, imu_data->q[0], imu_data->q[1], imu_data->q[2], imu_data->q[3] );
+        // printf( "frame index: %d, stamp: %d\n", imu_data->frame_index, imu_data->time_stamp );
+        // printf( "imu: [%f %f %f %f %f %f %f]\n", imu_data->acc_x, imu_data->acc_y, imu_data->acc_z, imu_data->q[0], imu_data->q[1], imu_data->q[2], imu_data->q[3] );
 
         // publish imu data
         geometry_msgs::TransformStamped g_imu;
@@ -237,7 +237,7 @@ int my_callback(int data_type, int data_len, char *content)
     if ( e_velocity == data_type && NULL != content )
     {
         velocity *vo = (velocity*)content;
-        printf( "frame index: %d, stamp: %d\n", vo->frame_index, vo->time_stamp );
+        // printf( "frame index: %d, stamp: %d\n", vo->frame_index, vo->time_stamp );
         printf( "vx:%f vy:%f vz:%f\n", 0.001f * vo->vx, 0.001f * vo->vy, 0.001f * vo->vz );
 
         // publish velocity
@@ -254,13 +254,13 @@ int my_callback(int data_type, int data_len, char *content)
     if ( e_obstacle_distance == data_type && NULL != content )
     {
         obstacle_distance *oa = (obstacle_distance*)content;
-        printf( "frame index: %d, stamp: %d\n", oa->frame_index, oa->time_stamp );
-        printf( "obstacle distance:" );
+        // printf( "frame index: %d, stamp: %d\n", oa->frame_index, oa->time_stamp );
+        // printf( "obstacle distance:" );
         for ( int i = 0; i < CAMERA_PAIR_NUM; ++i )
         {
-            printf( " %f ", 0.01f * oa->distance[i] );
+            // printf( " %f ", 0.01f * oa->distance[i] );
         }
-        printf( "\n" );
+        // printf( "\n" );
 
         // publish obstacle distance
         sensor_msgs::LaserScan g_oa;
@@ -276,10 +276,10 @@ int my_callback(int data_type, int data_len, char *content)
     if ( e_ultrasonic == data_type && NULL != content )
     {
         ultrasonic_data *ultrasonic = (ultrasonic_data*)content;
-        printf( "frame index: %d, stamp: %d\n", ultrasonic->frame_index, ultrasonic->time_stamp );
+        //printf( "frame index: %d, stamp: %d\n", ultrasonic->frame_index, ultrasonic->time_stamp );
         for ( int d = 0; d < CAMERA_PAIR_NUM; ++d )
         {
-            printf( "ultrasonic distance: %f, reliability: %d\n", ultrasonic->ultrasonic[d] * 0.001f, (int)ultrasonic->reliability[d] );
+            //printf( "ultrasonic distance: %f, reliability: %d\n", ultrasonic->ultrasonic[d] * 0.001f, (int)ultrasonic->reliability[d] );
         }
 
         // publish ultrasonic data
